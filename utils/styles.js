@@ -52,6 +52,9 @@ const useStyles = makeStyles({
     fullWidth: {
         width: '100%',
     },
+    toolbar: {
+        justifyContent: 'space-between',
+    },
 
 });
 
