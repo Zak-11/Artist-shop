@@ -11,27 +11,27 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     brand: {
-        fontWeight: 'bold'  ,
+        fontWeight: 'bold',
         fontSize: '1.5rem',
 
     },
     grow: {
-       flexGrow: 1,
+        flexGrow: 1,
     },
     main: {
-        minHeight:'80vh'
+        minHeight: '80vh'
 
     },
     footer: {
-        backgroundColor:'#351F39',
+        backgroundColor: '#351F39',
         height: 80,
         color: '#ffff',
-         textAlign: 'center',
+        textAlign: 'center',
         marginTop: 80,
 
-  },
+    },
     section: {
-      margin: 20,
+        margin: 20,
 
     },
     form: {
@@ -56,8 +56,8 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
     },
 
-    menuButton: { padding: 0 },
-    mt1: { marginTop: '1rem' },
+    menuButton: {padding: 0},
+    mt1: {marginTop: '1rem'},
     // search
     searchSection: {
         display: 'none',
@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     iconButton: {
-        backgroundColor: '#f8c040',
+        backgroundColor: '#351F39',
         padding: 5,
         borderRadius: '0 5px 5px 0',
         '& span': {
@@ -88,6 +88,26 @@ const useStyles = makeStyles((theme) => ({
     sort: {
         marginRight: 5,
     },
+    fullContainer: {height: '100vh'},
+    mapInputBox: {
+        position: 'absolute',
+        display: 'flex',
+        left: 0,
+        right: 0,
+        margin: '10px auto',
+        width: 300,
+        height: 40,
+        '& input': {
+            width: 250,
+        },
+    },
+    featuredImage: {
+
+        height: 500,
+        width: 1300,
+
+
+    }
 }))
 
 export default useStyles
