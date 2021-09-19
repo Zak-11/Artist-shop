@@ -1,61 +1,68 @@
-import React, {useContext} from 'react';
-import Layout from "../../components/Layout";
-import {Button, Card, Grid, Link, List, ListItem, Typography} from "@material-ui/core";
-import NextLink from "next/link";
-import useStyles from "../../utils/styles";
+import React, { useContext } from 'react';
+import NextLink from 'next/link';
 import Image from 'next/image';
-import db from "../../utils/db";
-import Product from "../../models/Product";
-import axios from "axios";
-import {Store} from "../../utils/Store";
-import {useRouter} from "next/router";
+import {
+    Grid,
+    Link,
+    List,
+    ListItem,
+    Typography,
+    Card,
+    Button} from '@material-ui/core';
+import Layout from '../../components/Layout';
+import useStyles from '../../utils/styles';
+import Product from '../../models/Product';
+import db from '../../utils/db';
+import axios from 'axios';
+import { Store } from '../../utils/Store';
+import { useRouter } from 'next/router';
+
 
 export default function ProductScreen(props) {
-     const router= useRouter()
+    const router = useRouter();
     const { state, dispatch } = useContext(Store);
-
-    const {product} = props;
+    const { product } = props;
     const classes = useStyles();
     if (!product) {
         return <div>Product Not Found</div>;
     }
+
     const addToCartHandler = async () => {
+        const existItem = state.cart.cartItems.find((x) => x._id === product._id);
+        const quantity = existItem ? existItem.quantity + 1 : 1;
         const { data } = await axios.get(`/api/products/${product._id}`);
         if (data.countInStock < quantity) {
             window.alert('Sorry. Product is out of stock');
             return;
         }
-        const existItem = state.cart.cartItems.find((x) => x._id === product._id);
-        const quantity = existItem ? existItem.quantity + 1 : 1;
-
         dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
-         await router.push('/cart')
+        router.push('/cart');
     };
     return (
-
-
         <Layout title={product.name} description={product.description}>
             <div className={classes.section}>
                 <NextLink href="/" passHref>
                     <Link>
-                        <Typography>Back to products</Typography>
+                        <Typography>back to products</Typography>
                     </Link>
                 </NextLink>
             </div>
             <Grid container spacing={1}>
                 <Grid item md={6} xs={12}>
                     <Image
-                        src={product.image}
-                        alt={product.name}
-                        width={520}
-                        height={680}
-                        layout="responsive"
-                    />
+    src={product.image}
+    alt={product.name}
+    width={640}
+    height={640}
+    layout="responsive"
+    />
                 </Grid>
                 <Grid item md={3} xs={12}>
                     <List>
                         <ListItem>
-                            <Typography component="h1" variant="h1">{product.name}</Typography>
+                            <Typography component="h1" variant="h1">
+                                {product.name}
+                            </Typography>
                         </ListItem>
                         <ListItem>
                             <Typography>Category: {product.category}</Typography>
@@ -64,13 +71,9 @@ export default function ProductScreen(props) {
                             <Typography>Brand: {product.brand}</Typography>
                         </ListItem>
                         <ListItem>
-                            <Typography>
-                                Ratting: {product.rating} stars ({product.numReviews})
-                            </Typography>
                         </ListItem>
                         <ListItem>
-
-                            <Typography>Description: {product.description}</Typography>
+                            <Typography> Description: {product.description}</Typography>
                         </ListItem>
                     </List>
                 </Grid>
@@ -106,24 +109,23 @@ export default function ProductScreen(props) {
                                     color="primary"
                                     onClick={addToCartHandler}
                                 >
-                                    ADD TO CART
+                                    Add to cart
                                 </Button>
                             </ListItem>
-
                         </List>
                     </Card>
                 </Grid>
             </Grid>
-        </Layout>
-    )
-}
 
+        </Layout>
+    );
+}
 export async function getServerSideProps(context) {
-    const {params} = context;
-    const {slug} = params;
+    const { params } = context;
+    const { slug } = params;
 
     await db.connect();
-    const product = await Product.findOne({slug}).lean();
+    const product = await Product.findOne({ slug }).lean();
     await db.disconnect();
     return {
         props: {

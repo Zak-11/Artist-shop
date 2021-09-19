@@ -1,41 +1,42 @@
+import NextLink from 'next/link';
 import {
-    List,
-    ListItem,
-    Typography,
-    TextField,
     Button,
     Link,
+    List,
+    ListItem,
+    TextField,
+    Typography,
 } from '@material-ui/core';
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import NextLink from 'next/link';
-import React, { useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import Layout from '../components/Layout';
-import { Store } from '../utils/Store';
 import useStyles from '../utils/styles';
+import axios from 'axios';
+import {Store} from '../utils/Store';
+import {useRouter} from 'next/dist/client/router';
 import Cookies from 'js-cookie';
-import { Controller, useForm } from 'react-hook-form';
-import { useSnackbar } from 'notistack';
-import { getError } from '../utils/error';
+import {Controller, useForm} from 'react-hook-form';
+import {useSnackbar} from 'notistack';
+import {getError} from '../utils/error';
 
-export default function Login() {
+const LoginPage = () => {
     const {
         handleSubmit,
         control,
-        formState: { errors },
+        formState: {errors},
     } = useForm();
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+    const {enqueueSnackbar, closeSnackbar} = useSnackbar();
+    const {state, dispatch} = useContext(Store);
+    const {userInfo} = state;
+
     const router = useRouter();
-    const { redirect } = router.query; // login?redirect=/shipping
-    const { state, dispatch } = useContext(Store);
-    const { userInfo } = state;
-    useEffect(() => {
-        if (userInfo) {
-            router.push('/');
-        }
-    }, []);
+    const {redirect} = router.query;
+
+    if (userInfo) {
+        router.push('/');
+    }
 
     const classes = useStyles();
+
     const submitHandler = async ({ email, password }) => {
         closeSnackbar();
         try {
@@ -50,10 +51,11 @@ export default function Login() {
             enqueueSnackbar(getError(err), { variant: 'error' });
         }
     };
+
     return (
         <Layout title="Login">
             <form onSubmit={handleSubmit(submitHandler)} className={classes.form}>
-                <Typography component="h1" variant="h1">
+                <Typography variant="h1" component="h1">
                     Login
                 </Typography>
                 <List>
@@ -66,13 +68,13 @@ export default function Login() {
                                 required: true,
                                 pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
                             }}
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <TextField
                                     variant="outlined"
                                     fullWidth
                                     id="email"
                                     label="Email"
-                                    inputProps={{ type: 'email' }}
+                                    inputProps={{type: 'email'}}
                                     error={Boolean(errors.email)}
                                     helperText={
                                         errors.email
@@ -95,18 +97,18 @@ export default function Login() {
                                 required: true,
                                 minLength: 6,
                             }}
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <TextField
                                     variant="outlined"
                                     fullWidth
                                     id="password"
                                     label="Password"
-                                    inputProps={{ type: 'password' }}
+                                    inputProps={{type: 'password'}}
                                     error={Boolean(errors.password)}
                                     helperText={
                                         errors.password
                                             ? errors.password.type === 'minLength'
-                                                ? 'Password length is more than 5'
+                                                ? 'Password should be more than 5 characters long'
                                                 : 'Password is required'
                                             : ''
                                     }
@@ -116,18 +118,30 @@ export default function Login() {
                         />
                     </ListItem>
                     <ListItem>
-                        <Button variant="contained" type="submit" fullWidth color="primary">
+                        <Button
+                            variant="contained"
+                            type="submit"
+                            fullWidth
+                            color="secondary"
+                        >
                             Login
                         </Button>
                     </ListItem>
                     <ListItem>
-                        Don`&apos`t have an account? &nbsp;
+                        Dont have an account?&nbsp;
                         <NextLink href={`/register?redirect=${redirect || '/'}`} passHref>
-                            <Link>Register</Link>
+                            <Link> Register</Link>
+                        </NextLink>
+                    </ListItem>
+                    <ListItem>
+                        <NextLink href={`/forgot-password`} passHref>
+                            <Link>Forgot Password</Link>
                         </NextLink>
                     </ListItem>
                 </List>
             </form>
         </Layout>
     );
-}
+};
+
+export default LoginPage;

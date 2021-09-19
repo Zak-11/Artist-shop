@@ -164,36 +164,36 @@ function UserEdit({ params }) {
                                     <List>
                                         <ListItem>
                                             <Controller
-                                                name="name"
-                                                control={control}
-                                                defaultValue=""
-                                                rules={{
-                                                    required: true,
-                                                }}
-                                                render={({ field }) => (
-                                                    <TextField
-                                                        variant="outlined"
-                                                        fullWidth
-                                                        id="name"
-                                                        label="Name"
-                                                        error={Boolean(errors.name)}
-                                                        helperText={errors.name ? 'Name is required' : ''}
-                                                        {...field}
-                                                    ></TextField>
-                                                )}
-                                            ></Controller>
+    name="name"
+    control={control}
+    defaultValue=""
+    rules={{
+        required: true,
+    }}
+    render={({field}) => (
+        <TextField
+    variant="outlined"
+    fullWidth
+    id="name"
+    label="Name"
+    error={Boolean(errors.name)}
+    helperText={errors.name ? 'Name is required' : ''}
+            {...field}
+    />
+    )}
+    />
                                         </ListItem>
                                         <ListItem>
                                             <FormControlLabel
-                                                label="Is Admin"
-                                                control={
-                                                    <Checkbox
-                                                        onClick={(e) => setIsAdmin(e.target.checked)}
-                                                        checked={isAdmin}
-                                                        name="isAdmin"
-                                                    />
-                                                }
-                                            ></FormControlLabel>
+    label="Is Admin"
+    control={
+        <Checkbox
+            onClick={(e) => setIsAdmin(e.target.checked)}
+            checked={isAdmin}
+            name="isAdmin"
+        />
+    }
+    />
                                         </ListItem>
                                         <ListItem>
                                             <Button

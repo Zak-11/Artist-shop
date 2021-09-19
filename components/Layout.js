@@ -140,7 +140,7 @@ export default function Layout({title, description, children}) {
                             </IconButton>
                             <NextLink href="/" passHref>
                                 <Link>
-                                    <Typography className={classes.brand}>amazona</Typography>
+                                    <Typography className={classes.brand}>Christina Turdo Art Store</Typography>
                                 </Link>
                             </NextLink>
                         </Box>
@@ -227,6 +227,7 @@ export default function Layout({title, description, children}) {
                                         aria-controls="simple-menu"
                                         aria-haspopup="true"
                                         onClick={loginClickHandler}
+
                                         className={classes.navbarButton}
                                     >
                                         {userInfo.name}
